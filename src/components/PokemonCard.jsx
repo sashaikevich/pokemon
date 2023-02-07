@@ -22,7 +22,12 @@ const PokemonCard = ({ name }) => {
   const { data: descData } = useQuery({
     queryKey: ["pokemons", "desc", name],
     queryFn: () => fetchPokemonDescription(name),
-    select: data => data.flavor_text_entries[0].flavor_text,
+    // select: data => data.flavor_text_entries[0].flavor_text,
+    select: data => {
+      return data.flavor_text_entries.find(
+        textEntry => textEntry.language.name === "en"
+      ).flavor_text
+    },
   })
 
   return (
